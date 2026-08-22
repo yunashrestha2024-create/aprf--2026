@@ -1,9 +1,10 @@
 import streamlit as st
 import rsp_graph_node
 import macro_node
-import wellbeing_node
 import simulation_node
+import wellbeing_node
 import knowledge_graph
+import neo4j_connection
 
 st.set_page_config(page_title="APRF Intelligence Engine 2026", layout="wide")
 
