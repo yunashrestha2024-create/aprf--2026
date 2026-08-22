@@ -11,11 +11,8 @@ def get_driver():
 def populate_graph():
     driver = get_driver()
     with driver.session(database=NEO4J_DATABASE) as session:
-        # Merge Pillars
         for pillar, details in PILLARS.items():
             session.run("MERGE (p:Pillar {name: $pillar})", pillar=pillar)
-            
-            # Merge Promises and link to Pillar
             for promise in details['promises']:
                 session.run("""
                     MERGE (pr:Promise {text: $promise})
