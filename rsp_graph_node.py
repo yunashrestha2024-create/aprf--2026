@@ -2,7 +2,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from neo4j_connection import get_driver, populate_graph
+from neo4j_connection import get_driver
 from config import NEO4J_DATABASE
 from rsp_data import PILLARS
 import networkx as nx
@@ -12,15 +12,8 @@ import streamlit.components.v1 as components
 def show():
     st.subheader("📜 RSP Vacha Patra vs Reality (Graph)")
     
-    # 🚀 The Populate Button (This is what you're looking for!)
-    if st.button("🚀 Populate RSP Graph into Neo4j"):
-        if populate_graph():
-            st.success("✅ Graph populated! Nodes and edges created.")
-        else:
-            st.error("Connection failed. Check credentials in config.py.")
-    
-    # Visualize Graph (Now with real data!)
-    driver = get_driver()
+    # 1. Visualize Graph (Data is already in Neo4j!)
+    driver = get_driver()  # Create a FRESH driver
     G = nx.Graph()
     with driver.session(database=NEO4J_DATABASE) as session:
         # Fetch Nodes
@@ -41,7 +34,7 @@ def show():
     net.from_nx(G)
     components.html(net.generate_html(), height=600, width="100%")
     
-    # Analysis Table
+    # 2. Analysis Table
     target_data = []
     for pillar, details in PILLARS.items():
         target_data.append({
